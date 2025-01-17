@@ -1,14 +1,14 @@
 package com.ing_hub.credit_module.controller.response;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Builder;
+import lombok.Data;
 
 import java.math.BigDecimal;
 
-@Getter
-@Setter
+@Data
+@Builder
 public class PayLoanResponse {
     private Integer completedInstallmentCount;
     private BigDecimal totalInstallmentAmount;
-    private boolean totallyPaid;
+    private Boolean totallyPaid;
 }

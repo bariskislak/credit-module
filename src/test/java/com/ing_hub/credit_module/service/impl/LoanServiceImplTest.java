@@ -19,9 +19,15 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyList;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class LoanServiceImplTest {
@@ -57,11 +63,12 @@ class LoanServiceImplTest {
         testLoan.setAmount(BigDecimal.valueOf(10000));
         testLoan.setIsPaid(false);
 
-        createLoanRequest = new CreateLoan();
-        createLoanRequest.setCustomerId(1L);
-        createLoanRequest.setAmount(BigDecimal.valueOf(10000));
-        createLoanRequest.setInterestRate(0.2);
-        createLoanRequest.setInstallments(12);
+        createLoanRequest = CreateLoan.builder()
+                .customerId(1L)
+                .amount(BigDecimal.valueOf(10000))
+                .interestRate(0.2)
+                .installments(12)
+                .build();
     }
 
     @Test
@@ -104,8 +111,8 @@ class LoanServiceImplTest {
     @Test
     void listLoans_Success() {
         // Arrange
-        doNothing().when(securityUtils).validateUserAccess(any());
         when(loanRepository.findByCustomerId(1L)).thenReturn(List.of(testLoan));
+        doNothing().when(securityUtils).validateUserAccess(any());
 
         // Act
         List<LoanEntity> result = loanService.listLoans(1L);

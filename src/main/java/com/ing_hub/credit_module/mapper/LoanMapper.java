@@ -10,41 +10,55 @@ import com.ing_hub.credit_module.entity.dao.LoanInstallmentEntity;
 import com.ing_hub.credit_module.service.dto.CreateLoan;
 import com.ing_hub.credit_module.service.dto.PayLoan;
 import com.ing_hub.credit_module.service.dto.PayLoanInfo;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.springframework.stereotype.Service;
 
-@Mapper(componentModel = "spring")
-public interface LoanMapper {
-    
-    @Mapping(source = "customerId", target = "customerId")
-    @Mapping(source = "amount", target = "amount")
-    @Mapping(source = "interestRate", target = "interestRate")
-    @Mapping(source = "installments", target = "installments")
-    CreateLoan requestToDto(CreateLoanRequest request);
+@Service
+public class LoanMapper {
 
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "customerId", target = "customerId")
-    @Mapping(source = "amount", target = "amount")
-    @Mapping(source = "isPaid", target = "isPaid")
-    @Mapping(source = "createDate", target = "createDate")
-    @Mapping(source = "numberOfInstallment", target = "numberOfInstallment")
-    LoanResponse toLoanResponse(LoanEntity entity);
+    public CreateLoan requestToDto(CreateLoanRequest request) {
+        return CreateLoan.builder()
+                .customerId(request.getCustomerId())
+                .amount(request.getAmount())
+                .interestRate(request.getInterestRate())
+                .installments(request.getInstallments())
+                .build();
+    }
 
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "loanId", target = "loanId")
-    @Mapping(source = "amount", target = "amount")
-    @Mapping(source = "defaultAmount", target = "defaultAmount")
-    @Mapping(source = "dueDate", target = "dueDate")
-    @Mapping(source = "paymentDate", target = "paymentDate")
-    @Mapping(source = "isPaid", target = "isPaid")
-    LoanInstallmentResponse toLoanInstallmentResponse(LoanInstallmentEntity entity);
+    public LoanResponse toLoanResponse(LoanEntity entity) {
+        return LoanResponse.builder()
+                .id(entity.getId())
+                .customerId(entity.getCustomerId())
+                .amount(entity.getAmount())
+                .isPaid(entity.getIsPaid())
+                .createDate(entity.getCreateDate())
+                .numberOfInstallment(entity.getNumberOfInstallment())
+                .build();
+    }
 
-    @Mapping(source = "loanId", target = "loanId")
-    @Mapping(source = "amount", target = "amount")
-    PayLoan toPayLoanDto(PayLoanRequest request);
+    public LoanInstallmentResponse toLoanInstallmentResponse(LoanInstallmentEntity entity) {
+        return LoanInstallmentResponse.builder()
+                .id(entity.getId())
+                .loanId(entity.getLoanId())
+                .amount(entity.getAmount())
+                .defaultAmount(entity.getDefaultAmount())
+                .dueDate(entity.getDueDate())
+                .paymentDate(entity.getPaymentDate())
+                .isPaid(entity.getIsPaid())
+                .build();
+    }
 
-    @Mapping(source = "completedInstallmentCount", target = "completedInstallmentCount")
-    @Mapping(source = "totalInstallmentAmount", target = "totalInstallmentAmount")
-    @Mapping(source = "totallyPaid", target = "totallyPaid")
-    PayLoanResponse toPayLoanResponse(PayLoanInfo info);
+    public PayLoan toPayLoanDto(PayLoanRequest request) {
+        return PayLoan.builder()
+                .loanId(request.getLoanId())
+                .amount(request.getAmount())
+                .build();
+    }
+
+    public PayLoanResponse toPayLoanResponse(PayLoanInfo info) {
+        return PayLoanResponse.builder()
+                .completedInstallmentCount(info.getCompletedInstallmentCount())
+                .totalInstallmentAmount(info.getTotalInstallmentAmount())
+                .totallyPaid(info.isTotallyPaid())
+                .build();
+    }
 }

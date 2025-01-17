@@ -56,14 +56,10 @@ create table if not exists user_roles
     primary key (user_id, role_id)
 );
 
-
-
--- Role tablosuna veri ekleme
 INSERT INTO role (name) VALUES ('ROLE_ADMIN'), ('ROLE_USER')
 ON CONFLICT (name) DO NOTHING;
 
--- User tablosuna veri ekleme
-INSERT INTO ing_user (username, password) 
+INSERT INTO ing_user (username, password)
 VALUES ('admin', '$2a$12$GVeK33iT3o.777rr8ZAYPeHf9yRs6SoeErsZa/AM/NuHg2.nosZ0W')
 ON CONFLICT (username) DO NOTHING;
 
@@ -74,8 +70,7 @@ VALUES
     ('user3', '3', '$2a$12$GVeK33iT3o.777rr8ZAYPeHf9yRs6SoeErsZa/AM/NuHg2.nosZ0W')
 ON CONFLICT (username) DO NOTHING;
 
--- User-Roles ilişkisini ekleme
-INSERT INTO user_roles (user_id, role_id) 
+INSERT INTO user_roles (user_id, role_id)
 SELECT u.id, r.id
 FROM ing_user u, role r
 WHERE u.username = 'admin' AND r.name = 'ROLE_ADMIN'
@@ -87,8 +82,7 @@ FROM ing_user u, role r
 WHERE u.username IN ('user1', 'user2', 'user3') AND r.name = 'ROLE_USER'
 ON CONFLICT (user_id, role_id) DO NOTHING;
 
--- Customer verilerini ekleme
-INSERT INTO customer (name, credit_limit) 
+INSERT INTO customer (name, credit_limit)
 VALUES 
     ('peace', 10000),
     ('war', 140000),

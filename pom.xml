@@ -85,7 +85,7 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>2.2.0</version> <!-- En güncel sürümü kontrol edin -->
+            <version>2.7.0</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -126,6 +126,9 @@
                             <version>${lombok-mapstruct-binding.version}</version>
                         </path>
                     </annotationProcessorPaths>
+                    <compilerArgs>
+                        <arg>-Amapstruct.defaultComponentModel=spring</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
 

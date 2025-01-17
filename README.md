@@ -1,16 +1,26 @@
-# credit-module
-ing hub case 
-# ING Hub Credit Module
+# Credit Module API
 
-This project is a credit module application developed for ING Hub.
+This project is a credit module API that allows customers to manage their loans and installments.
 
-## Features
+## Authentication
 
-- Create loan applications
-- List loan installments
-- Make loan payments
-- List customer-based loans
-- Security validations
+The system uses Basic Authentication. Available users and their credentials are:
+
+- Admin user:
+  - Username: admin
+  - Password: 1234
+  - Role: ROLE_ADMIN
+
+- Customer users:
+  - Username: user1, user2, user3
+  - Password: 1234 (same for all users)
+  - Role: ROLE_USER
+
+## Running the Application
+
+1. Make sure you have Docker and Docker Compose installed
+2. Clone the repository
+3. Run the following commands:
 
 ## Technical Details
 

@@ -3,7 +3,8 @@ FROM maven:3.9.6-eclipse-temurin-21-jammy AS build
 WORKDIR /app
 
 # Kaynak kodları ve SQL dosyalarını kopyala
-COPY . .
+COPY pom.xml .
+COPY src ./src
 COPY .env /app/.env
 
 RUN mvn clean package -DskipTests
@@ -16,8 +17,6 @@ WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 COPY --from=build /app/.env .env
 COPY --from=build /app/src/main/resources/db/init/ /docker-entrypoint-initdb.d/
-
-EXPOSE 8080
 
 # curl ve wait-for-it.sh kurulumu
 RUN apt-get update && apt-get install -y curl \

@@ -27,10 +27,12 @@ public class SecurityConfig {
                         .requestMatchers("/v1/public/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .httpBasic(withDefaults());
+                .httpBasic(withDefaults())
+                .headers(headers -> headers.cacheControl(cache -> cache.disable())); // Cache kontrolü devre dışı bırakıldı
 
         return http.build();
     }
+
 
     @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
